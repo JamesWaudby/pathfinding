@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f9e778a9-7439-44ff-b2f3-c7ec836ecdeb" name="PathFindingClassDiagram" linkedPackageId="e63c7442-2e9d-4983-9562-47f78372dcdf" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <ownedCommentsInternal>
+    <comment Id="ab645878-0d8a-49dd-a004-052020df240d">
+      <elementDefinition Id="6581b06f-840b-4b3b-974f-1e2523ebb083" />
+      <body>Graph</body>
+    </comment>
+    <comment Id="4c09eb00-ea07-4aef-8e2a-297390e73bd2">
+      <elementDefinition Id="56028593-1afd-467b-88c7-c724655932f0" />
+      <body>Graph Vertex</body>
+    </comment>
+    <comment Id="4fc38326-b58d-4d73-81f7-4870211f3cbb">
+      <elementDefinition Id="9872f197-685c-4486-9eb4-fd2bf32dd48c" />
+      <body>Graph Edges</body>
+    </comment>
+    <comment Id="78ebfa2a-15bc-4617-b920-708a2a766f2f">
+      <elementDefinition Id="41e4a625-4cd9-4416-b4de-09778b6bc5d9" />
+      <body>Representation of the LEGO mindstorm robot</body>
+    </comment>
+    <comment Id="a21529ba-8fee-46d6-b99c-1bd7f576a5e2">
+      <elementDefinition Id="d87b627a-58e2-45d7-81c7-4b5f95eeb077" />
+      <body>Representation of the sensor used to check neighbouring cells</body>
+    </comment>
+    <comment Id="c6ca5f1d-18a6-4e42-96cc-a273bdc53b9a">
+      <elementDefinition Id="9a8dce10-7514-4dbf-bd40-7d3598b3e829" />
+      <body>Handles the grid and the robot</body>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances Id="2209f1b8-00e7-43a4-a1b2-37f209e23cb1">
+      <profileInstance Id="78746d80-08d3-460e-8856-652245d7f77e" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="afca06a4-98ef-4eb2-a423-c38a9f4fa510">
+      <profileInstance Id="5a32bc9a-c814-4c77-8e8c-ceca0aa645e5" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b65986e7-e9b5-415f-86d2-856da5f18a48" name="Grid" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6d8483ed-37cd-494e-8452-579a721bf95c" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="9424b379-906a-4021-9027-be541a3074bf" name="GridCell" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="eabb4c7a-0ad2-4b18-9626-f6ad8291f8e9" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="134f8d8e-0b79-4610-b8f6-0b74b3654840" name="GridCellEdge" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d12a575a-e863-4c2a-979f-66afe9075d2f" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b3b310ed-bb28-40ff-b993-35ee5b963113" name="Robot" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="a6a0154e-ef46-4494-8b3d-9ef287109027" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a0bed9a9-a488-4af9-8e9c-90fbe74edc4d" name="RobotSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="bbb3e4cd-8283-41d1-9674-e8046a3aa19f" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="5c07f226-5847-4f52-afc7-964769d794c8" name="Manager" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="739863fd-84dd-4789-80e2-182b0fc0f4ac" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="09306c35-125a-4e2b-b01d-aee0772e5f7b" name="GridDirection" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="2746e35a-5317-4901-86d7-3ab882e0e7e5" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="e63c7442-2e9d-4983-9562-47f78372dcdf" name="DesignDocumentation">
+    <elementDefinition Id="7d19c96f-e01a-4325-802f-2f4c9baa9dae" />
+  </package>
+</logicalClassDesignerModel>

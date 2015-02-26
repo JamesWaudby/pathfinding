@@ -5,28 +5,21 @@
   name="DesignDocumentation" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <ownedCommentsInternal>
     <comment
-      Id="6581b06f-840b-4b3b-974f-1e2523ebb083">
-      <body>Graph</body>
-    </comment>
-    <comment
-      Id="56028593-1afd-467b-88c7-c724655932f0">
-      <body>Graph Vertex</body>
-    </comment>
-    <comment
-      Id="9872f197-685c-4486-9eb4-fd2bf32dd48c">
-      <body>Graph Edges</body>
-    </comment>
-    <comment
-      Id="41e4a625-4cd9-4416-b4de-09778b6bc5d9">
-      <body>Representation of the LEGO mindstorm robot</body>
-    </comment>
-    <comment
       Id="d87b627a-58e2-45d7-81c7-4b5f95eeb077">
       <body>Representation of the sensor used to check neighbouring cells</body>
     </comment>
     <comment
-      Id="9a8dce10-7514-4dbf-bd40-7d3598b3e829">
-      <body>Handles the grid and the robot</body>
+      Id="cf2e77b6-d1f8-4c53-8921-44cbc4300fc1">
+      <body>An abtract class which the different algorithms derive from</body>
+    </comment>
+    <comment
+      Id="e4f567fb-95b5-4656-9e89-9182bf27de92">
+      <body>Controls the positioning of the cells and the robot</body>
+    </comment>
+    <comment
+      Id="d7d8b3c1-62c8-4acc-a329-869080451c3c">
+      <body>Drawing Classes
+</body>
     </comment>
   </ownedCommentsInternal>
   <profileInstances>
@@ -50,7 +43,114 @@
         name="Grid"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="44eb1d32-fb7c-4980-8c65-5648b3b74fa9"
+            isDerived="false"
+            sourceEndRoleName="Grid"
+            targetEndRoleName="GridCell"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="eabb4c7a-0ad2-4b18-9626-f6ad8291f8e9"
+              LastKnownName="GridCell"
+              LastKnownLocation="DesignDocumentation.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="700df5dd-acc7-4660-96d1-254eba6aaf12"
+                  name="Grid"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d342751d-d389-46c8-916c-3fd8087a1b6e"
+                  name="GridCell"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="4631eb8e-1685-484d-bf37-125be6bf00de"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="7743c4c5-7cdb-47ea-9b57-80849b3d75b4"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="629b3dff-de09-449c-a16a-80cdfa7cf167"
+            name="cells"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <lowerValueInternal>
+              <literalString
+                Id="244c1f31-0817-44a6-a436-2e9d07181889"
+                name="Lower"
+                value="*" />
+            </lowerValueInternal>
+            <upperValueInternal>
+              <literalString
+                Id="8ed905c6-e063-4f02-9861-cd8f01dd94aa"
+                name="Upper"
+                value="*" />
+            </upperValueInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="eabb4c7a-0ad2-4b18-9626-f6ad8291f8e9"
+                LastKnownName="GridCell"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="eb7ef277-33c4-4450-bbdf-6a7bc2a02d44"
+            name="cellSize"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -58,7 +158,58 @@
         name="GridCell"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="86707902-8616-4128-a0cb-6af9d506256a"
+            name="visitedCount"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="e85d652c-4e52-4a91-900a-5641d3262d88"
+            name="position"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a4b8866a-d24f-4f9e-8e40-ee53a42126e5"
+                LastKnownName="Vector2d"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="d58b9076-f996-4399-9e91-09ccf1f87503"
+            name="OnCellEnter"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -74,7 +225,197 @@
         name="Robot"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="b6f8238b-4807-4403-839e-b1780656ab53"
+            isDerived="false"
+            sourceEndRoleName="Robot"
+            targetEndRoleName="RobotSensor"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="bbb3e4cd-8283-41d1-9674-e8046a3aa19f"
+              LastKnownName="RobotSensor"
+              LastKnownLocation="DesignDocumentation.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7c8e4ee4-e990-4c7f-ab52-28c0ae9e5c8e"
+                  name="Robot"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="536958a5-30c1-459a-a489-466a99403711"
+                  name="RobotSensor"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="bcae8068-dba6-4e21-9112-7b1841b7f623"
+                      name="Lower"
+                      value="3" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="f4f385c7-217b-48e5-b34a-59ffa5ac62ca"
+                      name="Upper"
+                      value="3" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="e2f7eccc-8526-46dc-aae4-f3fdbf2a5e44"
+            name="worldPosition"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a4b8866a-d24f-4f9e-8e40-ee53a42126e5"
+                LastKnownName="Vector2d"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="817742c1-e3e5-4334-8337-1edc59ab6ed4"
+            name="sensors"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <lowerValueInternal>
+              <literalString
+                Id="4bfc31d7-6d49-45ab-be75-3fc007de7d2f"
+                name="Lower"
+                value="3" />
+            </lowerValueInternal>
+            <upperValueInternal>
+              <literalString
+                Id="587151f0-027c-4994-8b6b-4c114303113f"
+                name="Upper"
+                value="3" />
+            </upperValueInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="bbb3e4cd-8283-41d1-9674-e8046a3aa19f"
+                LastKnownName="RobotSensor"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="f4cee377-5411-4ab8-8358-14431092d0e6"
+            name="rotation"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="68c2bbd2-0f17-472e-b413-c364e5d17071"
+                LastKnownName="Float"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="ce9d1211-f7ed-49f8-a2a2-d6503e53cac1"
+            name="gridPosition"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a4b8866a-d24f-4f9e-8e40-ee53a42126e5"
+                LastKnownName="Vector2d"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="2423efa7-5ed3-4363-9baa-1c9001419310"
+            name="speed"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="68c2bbd2-0f17-472e-b413-c364e5d17071"
+                LastKnownName="Float"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="331febde-607a-44c1-a5c9-6000c429e69a"
+            name="Move"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="c85b40d1-2221-4bfb-8341-4767e757b2ca"
+            name="Rotate"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="9893c712-2ea5-47dc-a334-d3afa32ef7e4"
+            name="Scan"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -82,23 +423,561 @@
         name="RobotSensor"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="0e064414-b467-4a2b-96ef-db913c4c6364"
+            isDerived="false"
+            sourceEndRoleName="RobotSensor"
+            targetEndRoleName="Grid"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="6d8483ed-37cd-494e-8452-579a721bf95c"
+              LastKnownName="Grid"
+              LastKnownLocation="DesignDocumentation.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="317a3821-2a57-4cc0-b544-dbb28710d0bf"
+                  name="RobotSensor"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1595bb95-9bd1-40da-b072-71511d437742"
+                  name="Grid"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="fbff5a88-855a-42db-a406-f909aa9eef02"
+            name="grid"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="6d8483ed-37cd-494e-8452-579a721bf95c"
+                LastKnownName="Grid"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="80ca2c3b-3f8a-4795-8a3e-b1e3b85b9550"
+            name="Scan"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="0a38efd2-1857-489b-bbff-88853649acc8"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="eabb4c7a-0ad2-4b18-9626-f6ad8291f8e9"
+                      LastKnownName="GridCell"
+                      LastKnownLocation="DesignDocumentation.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
         Id="739863fd-84dd-4789-80e2-182b0fc0f4ac"
-        name="Manager"
+        name="Controller"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="c7893c27-7696-4be9-9904-81c85406223e"
+            name="grid"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="6d8483ed-37cd-494e-8452-579a721bf95c"
+                LastKnownName="Grid"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="37c8947e-cdc4-4b60-9229-cd8886143fbb"
+            name="robot"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a6a0154e-ef46-4494-8b3d-9ef287109027"
+                LastKnownName="Robot"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="611dd684-4df2-408b-83b6-c69ea19faa9d"
+            name="Update"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2746e35a-5317-4901-86d7-3ab882e0e7e5"
+        name="GridDirections"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
+      <enumeration
+        Id="1c00e297-21c6-4978-a161-8eaafc75347d"
+        name="Directions"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="1daa8453-c543-4363-9452-ef462ba0b4d6"
+            name="North" />
+          <enumerationLiteral
+            Id="3a71afd3-2bd0-4a87-b97e-26035f4dcd4b"
+            name="South" />
+          <enumerationLiteral
+            Id="f3d021a3-ce35-4d01-81f1-bd2f0780697a"
+            name="East" />
+          <enumerationLiteral
+            Id="82d432b3-d8ba-4420-87e6-1fac7589004d"
+            name="West" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
       <class
-        Id="2746e35a-5317-4901-86d7-3ab882e0e7e5"
-        name="GridDirection"
+        Id="a4b8866a-d24f-4f9e-8e40-ee53a42126e5"
+        name="Vector2d"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="1c4058fc-b417-4738-8e99-01be83ac8301"
+            name="x"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="68c2bbd2-0f17-472e-b413-c364e5d17071"
+                LastKnownName="Float"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="c783a03c-4b38-41f6-be7d-5277f0e0b1da"
+            name="y"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="68c2bbd2-0f17-472e-b413-c364e5d17071"
+                LastKnownName="Float"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="665265c8-b763-4b0d-94e9-d17582d6b29e"
+        name="Pathfinder"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="e3d82924-8f33-4ae2-b445-7627af8034c6"
+            name="robot"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a6a0154e-ef46-4494-8b3d-9ef287109027"
+                LastKnownName="Robot"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="8360cb0b-07a0-4507-af3c-66debdb4ce56"
+            name="Update"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="59ff5423-34c2-40fc-ae07-fc8c0bd5ee3d"
+        LastKnownName="Package1"
+        LastKnownLocation="Package_1117.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="90ea7d85-4621-4a92-97bf-fabbcdef74db"
+        name="GridView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="f5c77d56-6c39-4d48-9273-5df16615b8c5">
+            <interfaceMoniker
+              Id="b0dade61-405a-4772-b9e9-eb28d458562e"
+              LastKnownName="IDrawing"
+              LastKnownLocation="DesignDocumentation.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="a988ff32-cc28-4e55-9b66-c6c93f2bc25e"
+            name="grid"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="6d8483ed-37cd-494e-8452-579a721bf95c"
+                LastKnownName="Grid"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="9c7f0a2c-80d6-429d-8fa5-66f4fe9574cd"
+            name="Draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a275062b-1911-4acc-9488-ae95c7495b7e"
+        name="RobotView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="9902d5d9-2737-4cec-aeb0-b0230fd05aee">
+            <interfaceMoniker
+              Id="b0dade61-405a-4772-b9e9-eb28d458562e"
+              LastKnownName="IDrawing"
+              LastKnownLocation="DesignDocumentation.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="616586f6-dfb9-48f8-a206-57a93caeaf3c"
+            name="robot"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a6a0154e-ef46-4494-8b3d-9ef287109027"
+                LastKnownName="Robot"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="98f08fcb-26e0-412e-866b-ea540cce069b"
+            name="Draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="224e022b-98b9-4646-9302-e5976017b1a1"
+        name="float" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="68c2bbd2-0f17-472e-b413-c364e5d17071"
+        name="Float" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="055a6768-a2e0-459e-becd-ba1e7a1787e1"
+        name="View"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="d5a85a3d-7d34-48eb-92c9-6b2a28707239">
+            <interfaceMoniker
+              Id="b0dade61-405a-4772-b9e9-eb28d458562e"
+              LastKnownName="IDrawing"
+              LastKnownLocation="DesignDocumentation.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="47bba405-b019-4685-8694-931b8b9121e3"
+            isDerived="false"
+            sourceEndRoleName="View"
+            targetEndRoleName="GridView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="90ea7d85-4621-4a92-97bf-fabbcdef74db"
+              LastKnownName="GridView"
+              LastKnownLocation="DesignDocumentation.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="26958c68-ac9e-4f31-b63f-c68e7c614372"
+                  name="View"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5ccaa8e9-db3a-4176-a420-813bd5c5fd29"
+                  name="GridView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="c6ab522d-833d-4333-abba-501143cb11ce"
+            isDerived="false"
+            sourceEndRoleName="View"
+            targetEndRoleName="RobotView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="a275062b-1911-4acc-9488-ae95c7495b7e"
+              LastKnownName="RobotView"
+              LastKnownLocation="DesignDocumentation.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="634a35d5-abee-422f-9a97-cb42a012c0e6"
+                  name="View"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="550ae5e8-bbfa-4264-bc89-606ab29c2059"
+                  name="RobotView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="17bd836a-c643-409a-aaaf-594823427ca6"
+            name="gridView"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="90ea7d85-4621-4a92-97bf-fabbcdef74db"
+                LastKnownName="GridView"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="3a07efad-f783-4525-a294-cee0b4a4674c"
+            name="robotView"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="a275062b-1911-4acc-9488-ae95c7495b7e"
+                LastKnownName="RobotView"
+                LastKnownLocation="DesignDocumentation.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="ae4248a4-5e01-4fd0-9a95-2754534f1ef4"
+            name="Draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="29d1c288-69c7-4711-a751-f5f3e699b549"
+        name="Class1"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="b0dade61-405a-4772-b9e9-eb28d458562e"
+        name="IDrawing"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedOperations>
+          <operation
+            Id="1c5217e9-4a6c-425f-9950-811b3adb8f1c"
+            name="Draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperations>
+      </Interface>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

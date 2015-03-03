@@ -55,7 +55,7 @@ namespace Implementation
         protected override void Initialize()
         {
             // Create the world graph.
-            Graph = new Graph(15, 15);
+            Graph = new Graph(40, 40);
 
             // Temporary for generating rooms.
             Random rand = new Random();
@@ -150,10 +150,10 @@ namespace Implementation
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.TranslationMatrix);
 
             // Cull the unneeded tiles from being drawn.
-            int left = (int)( Camera.Position.X - (Camera.ViewportWidth / Camera.Zoom)) / Robot.LocalGraph.Resolution;
-            int right = (int)(Camera.Position.X + (Camera.ViewportWidth / Camera.Zoom)) / Robot.LocalGraph.Resolution+1;
+            int left = (int)(Camera.Position.X - (Camera.ViewportWidth / Camera.Zoom)) / Robot.LocalGraph.Resolution;
+            int right = (int)(Camera.Position.X + (Camera.ViewportWidth / Camera.Zoom)) / Robot.LocalGraph.Resolution + 1;
             int top = (int)(Camera.Position.Y - (Camera.ViewportHeight / Camera.Zoom)) / Robot.LocalGraph.Resolution;
-            int bottom = (int)(Camera.Position.Y + (Camera.ViewportHeight / Camera.Zoom)) / Robot.LocalGraph.Resolution+1;
+            int bottom = (int)(Camera.Position.Y + (Camera.ViewportHeight / Camera.Zoom)) / Robot.LocalGraph.Resolution + 1;
 
             // Make sure the coords are in bounds.
             if (left < 0) left = 0;

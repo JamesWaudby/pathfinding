@@ -104,34 +104,6 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="b3b310ed-bb28-40ff-b993-35ee5b963113" name="Robot" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="a6a0154e-ef46-4494-8b3d-9ef287109027" />
-        <targetEnds>
-          <association Id="a329bc4d-4b3f-4ed8-8527-16f37ddb989a" isDerived="false" sourceEndRoleName="Robot" targetEndRoleName="RobotSensor" isLeaf="false" isAbstract="false">
-            <classMoniker Id="a0bed9a9-a488-4af9-8e9c-90fbe74edc4d" LastKnownName="RobotSensor" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="b6e5a942-bf43-492f-b19a-bd849274a49d" name="Robot" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="7c8e4ee4-e990-4c7f-ab52-28c0ae9e5c8e" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="b72d56f4-e6c6-4c44-997b-25c68916fb49" name="RobotSensor" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <lowerValueInternal>
-                    <literalString Id="ed5a55bc-d6fb-4893-89c2-a1649b61006c" name="Lower" value="3">
-                      <elementDefinition Id="bcae8068-dba6-4e21-9112-7b1841b7f623" />
-                    </literalString>
-                  </lowerValueInternal>
-                  <upperValueInternal>
-                    <literalString Id="8680ddfd-d6b5-4d7b-9afe-7d4f7900fdc4" name="Upper" value="3">
-                      <elementDefinition Id="f4f385c7-217b-48e5-b34a-59ffa5ac62ca" />
-                    </literalString>
-                  </upperValueInternal>
-                  <elementDefinition Id="536958a5-30c1-459a-a489-466a99403711" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="b6f8238b-4807-4403-839e-b1780656ab53" />
-          </association>
-        </targetEnds>
         <ownedAttributesInternal>
           <property Id="46c822b8-533e-41fe-8083-55436aacdc37" name="worldPosition" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="e2f7eccc-8526-46dc-aae4-f3fdbf2a5e44" />
@@ -183,52 +155,6 @@
           </operation>
           <operation Id="ad1d311d-1a76-4722-834c-a06c623044b9" name="Scan" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="9893c712-2ea5-47dc-a334-d3afa32ef7e4" />
-          </operation>
-        </ownedOperationsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="a0bed9a9-a488-4af9-8e9c-90fbe74edc4d" name="RobotSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="bbb3e4cd-8283-41d1-9674-e8046a3aa19f" />
-        <targetEnds>
-          <association Id="5d135255-82c0-4adf-8e7e-f1c0ba560905" isDerived="false" sourceEndRoleName="RobotSensor" targetEndRoleName="Grid" isLeaf="false" isAbstract="false">
-            <classMoniker Id="b65986e7-e9b5-415f-86d2-856da5f18a48" LastKnownName="Grid" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="690bd4be-ec3f-4ab6-93ff-6bd4d60cb5be" name="RobotSensor" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="317a3821-2a57-4cc0-b544-dbb28710d0bf" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="26c111ae-0fa2-4bcf-a375-2a45f37c38be" name="Grid" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="1595bb95-9bd1-40da-b072-71511d437742" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="0e064414-b467-4a2b-96ef-db913c4c6364" />
-          </association>
-        </targetEnds>
-        <ownedAttributesInternal>
-          <property Id="c09f6700-d00a-4e8e-b341-5b1c599de4f4" name="grid" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-            <elementDefinition Id="fbff5a88-855a-42db-a406-f909aa9eef02" />
-            <type_NamedElement>
-              <referencedTypeMoniker Id="78113698-e7b4-41e6-9943-093d2fef7784" LastKnownName="Grid" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation Id="fd8bc01a-d8b2-47ce-8b29-77cac145f4ae" name="Scan" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="80ca2c3b-3f8a-4795-8a3e-b1e3b85b9550" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="ba029598-e2c5-430b-9a97-c4235800d0ef" direction="Return">
-                  <elementDefinition Id="0a38efd2-1857-489b-bbff-88853649acc8" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="11e0f889-a84a-494e-8e30-d48c3bddd3f4" LastKnownName="GridCell" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -394,11 +320,6 @@
     <packageHasNamedElement>
       <referencedType Id="78113698-e7b4-41e6-9943-093d2fef7784" name="Grid" isAbstract="false" isLeaf="false" cachedFullName="DesignDocumentation::Grid">
         <elementDefinition Id="6d8483ed-37cd-494e-8452-579a721bf95c" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="11e0f889-a84a-494e-8e30-d48c3bddd3f4" name="GridCell" isAbstract="false" isLeaf="false" cachedFullName="DesignDocumentation::GridCell">
-        <elementDefinition Id="eabb4c7a-0ad2-4b18-9626-f6ad8291f8e9" />
       </referencedType>
     </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>

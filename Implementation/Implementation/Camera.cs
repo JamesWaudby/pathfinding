@@ -48,13 +48,14 @@ namespace Implementation
         public void AdjustZoom(float amount)
         {
             Zoom += amount;
-            if (Zoom < 0.75f)
+
+            if (Zoom < 0.25f)
             {
-                Zoom = 0.75f;
+                Zoom = 0.25f;
             }
-            else if (Zoom > 1.25f)
+            else if (Zoom > 1f)
             {
-                Zoom = 1.25f;
+                Zoom = 1f;
             }
         }
 

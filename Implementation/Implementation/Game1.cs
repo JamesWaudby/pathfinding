@@ -55,7 +55,7 @@ namespace Implementation
         protected override void Initialize()
         {
             // Create the world graph.
-            Graph = new Graph(40, 40);
+            Graph = new Graph(5, 5);
 
             // Temporary for generating rooms.
             Random rand = new Random();
@@ -97,7 +97,7 @@ namespace Implementation
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _interfaceBatch = new SpriteBatch(GraphicsDevice);
 
-            _font = 
+           
             _font = Content.Load<SpriteFont>("font");
 
             _walkableTexture2D = Content.Load<Texture2D>("walkable");
@@ -155,7 +155,7 @@ namespace Implementation
             int top = (int)(Camera.Position.Y - (Camera.ViewportHeight / Camera.Zoom)) / Robot.LocalGraph.Resolution;
             int bottom = (int)(Camera.Position.Y + (Camera.ViewportHeight / Camera.Zoom)) / Robot.LocalGraph.Resolution + 1;
 
-            // Make sure the coords are in bounds.
+            // Make sure the coordinates are in bounds.
             if (left < 0) left = 0;
             if (top < 0) top = 0;
             if (right > Robot.LocalGraph.Width) right = Robot.LocalGraph.Width;
@@ -189,16 +189,16 @@ namespace Implementation
                             _spriteBatch.DrawString(_font, Robot.LocalGraph.Cells[x, y].Visited.ToString(),
                                 new Vector2(xPos + 2, yPos), Color.Blue);
                         }
-                        
                         // Draw the non walkable areas.
                         else
-                            _spriteBatch.Draw(_unwalkableTexture2D,
-                                new Rectangle(xPos, yPos, Graph.Resolution, Graph.Resolution), Color.White);
+                        {
+                            _spriteBatch.Draw(_unwalkableTexture2D, new Vector2(xPos, yPos), Color.White);
+                        }
 
-                        
+                        // Create a new vector to check against.
                         Vector2 current = new Vector2(x, y);
 
-                        // Draw arrows to the cell parents
+                        // Draw arrows to the cell parents.
                         if (current - Robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[0])
                         {
                             _spriteBatch.Draw(_leftArrowTexture2D, new Vector2(xPos, yPos), Color.White);
@@ -216,13 +216,6 @@ namespace Implementation
                             _spriteBatch.Draw(_upArrowTexture2D, new Vector2(xPos, yPos), Color.White);
                         }
                     }
-
-                    // Draw the neighbours information.
-                    //if(_graph.WalkableNeighbours(_robot.GridPosition).Contains(new Vector2(x, y)))
-                    //    _spriteBatch.DrawString(_font, "N", new Vector2(xPos + 13, yPos + 10), Color.Black);
-
-                    // Position debug
-                    //_spriteBatch.DrawString(_font, x + "\n" + y, new Vector2(xPos + 2, yPos), Color.Blue);
                 }
             }
 
@@ -233,10 +226,11 @@ namespace Implementation
             // Draw the user interface overlay.
             _interfaceBatch.Begin();
             _interfaceBatch.DrawString(_font, "Pathfinding Robot Simulation!", new Vector2(10, 10), Color.Black);
+            _interfaceBatch.DrawString(_font, Robot.GridPosition.ToString(), new Vector2(10, 25), Color.Black);
             _interfaceBatch.DrawString(_font, "WASD - Move Camera.\n" +
                                               "Q/E - Zoom Camera In/Out.\n" +
                                               "F - Move Camera to Robot.\n" +
-                                              "R - Start/Stop the Robot.", new Vector2(10, Camera.ViewportHeight - 65), Color.Black);
+                                              "R - Start the Robot.", new Vector2(10, Camera.ViewportHeight - 65), Color.Black);
             _interfaceBatch.End();
 
             base.Draw(gameTime);

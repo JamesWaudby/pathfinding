@@ -13,12 +13,13 @@ namespace Implementation.GridRepresentation
         // Has the cell been visited already
         public int Visited { get; set; }
 
-        public Vector2 Parent { get; set; }
+        public Vector2? Parent { get; set; }
 
         public Cell(bool walkable)
         {
             Walkable = walkable;
             Visited = 0;
+            Parent = null;
         }
 
         protected bool Equals(Cell other)

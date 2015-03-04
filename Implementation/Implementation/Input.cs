@@ -10,15 +10,13 @@ namespace Implementation
 {
     class Input
     {
-        private Camera _camera;
-        private Robot _robot;
-        private Graph _graph;
+        private readonly Camera _camera;
+        private readonly Robot _robot;
 
         public Input(Game1 game)
         {
             _camera = game.Camera;
             _robot = game.Robot;
-            _graph = game.Graph;
         }
 
         public void HandleInput()

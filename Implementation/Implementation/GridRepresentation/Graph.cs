@@ -55,5 +55,25 @@ namespace Implementation.GridRepresentation
         {
             return Dirs.Select(dir => position + dir).Where(next => InBounds(next) && Walkable(next));
         }
+
+        public IEnumerable<Vector2> GetPath(Vector2 from)
+        {
+            List<Vector2> path = new List<Vector2>();
+
+            while (from != null)
+            {
+                Vector2 nonNull = (Vector2) from;
+                path.Add(nonNull);
+
+                Vector2? parent = Cells[(int)nonNull.X, (int)nonNull.Y].Parent;
+
+                if (parent != null)
+                    from = (Vector2) parent;
+                else
+                    break;
+            }
+
+            return path;
+        } 
     }
 }

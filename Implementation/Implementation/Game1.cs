@@ -55,7 +55,7 @@ namespace Implementation
         protected override void Initialize()
         {
             // Create the world graph.
-            Graph = new Graph(5, 5);
+            Graph = new Graph(4, 4);
 
             // Temporary for generating rooms.
             Random rand = new Random();
@@ -63,7 +63,7 @@ namespace Implementation
             {
                 for (int y = 0; y < Graph.Height; y++)
                 {
-                    if (rand.Next(0, 10) >= 8) Graph.Cells[x,y]= new Cell(false);
+                    if (rand.Next(0, 10) >= 10) Graph.Cells[x,y]= new Cell(false);
                     else Graph.Cells[x, y] = new Cell(true);
                 }
             }
@@ -227,6 +227,16 @@ namespace Implementation
             _interfaceBatch.Begin();
             _interfaceBatch.DrawString(_font, "Pathfinding Robot Simulation!", new Vector2(10, 10), Color.Black);
             _interfaceBatch.DrawString(_font, Robot.GridPosition.ToString(), new Vector2(10, 25), Color.Black);
+            _interfaceBatch.DrawString(_font, "Active: " + Robot.Active, new Vector2(10, 45), Color.Black);
+
+            int t = 65;
+
+            foreach (Vector2 v in Robot.GetMoves())
+            {
+                _interfaceBatch.DrawString(_font, v.ToString(), new Vector2(10, t), Color.Black);
+                t += 12;
+            }
+
             _interfaceBatch.DrawString(_font, "WASD - Move Camera.\n" +
                                               "Q/E - Zoom Camera In/Out.\n" +
                                               "F - Move Camera to Robot.\n" +

@@ -12,11 +12,13 @@ namespace Implementation
     {
         private readonly Camera _camera;
         private readonly Robot _robot;
+        private readonly Simulation _simulation;
 
         public Input(Game1 game)
         {
             _camera = game.Camera;
             _robot = game.Robot;
+            _simulation = game.Simulation;
         }
 
         public void HandleInput()
@@ -63,7 +65,7 @@ namespace Implementation
             // Start/Stop the robot.
             else if (state.IsKeyDown(Keys.R))
             {
-                _robot.Active = true;
+                _simulation.Start();
             }
 
             // When using a controller, to match the thumbstick behavior,

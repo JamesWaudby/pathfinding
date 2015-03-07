@@ -35,9 +35,12 @@ namespace Implementation
             }
         }
 
-        public Camera()
+        public Camera(int width, int height)
         {
             Zoom = 1.0f;
+
+            ViewportWidth = width;
+            ViewportHeight = height;
         }
 
         // Call this method with negative values to zoom out

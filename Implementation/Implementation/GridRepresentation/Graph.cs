@@ -56,6 +56,17 @@ namespace Implementation.GridRepresentation
             return Dirs.Select(dir => position + dir).Where(next => InBounds(next) && Walkable(next));
         }
 
+        /// <summary>
+        /// Get all of the unvisited neighbours of a position.
+        /// </summary>
+        /// <param name="position">The position to check from.</param>
+        /// <returns>An IEnumerable of unvisited neighbours.</returns>
+        public IEnumerable<Vector2> UnvisitedNeighbours(Vector2 position)
+        {
+            // Search for the unvisited neighbours.
+            return WalkableNeighbours(position).Where(n => Cells[(int)n.X, (int)n.Y].Visited == 0);
+        } 
+
         public IEnumerable<Vector2> GetPath(Vector2 from)
         {
             List<Vector2> path = new List<Vector2>();

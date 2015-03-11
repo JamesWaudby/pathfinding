@@ -14,12 +14,20 @@ namespace Implementation.GridRepresentation
 {
     public class Graph
     {
+        //public static readonly Vector2[] Dirs =
+        //{
+        //    new Vector2(1, 0),
+        //    new Vector2(0, -1),
+        //    new Vector2(-1, 0),
+        //    new Vector2(0, 1)
+        //};
+
         public static readonly Vector2[] Dirs =
         {
-            new Vector2(1, 0),
             new Vector2(0, -1),
             new Vector2(-1, 0),
-            new Vector2(0, 1)
+            new Vector2(0, 1),
+            new Vector2(1, 0)
         };
 
         public int Height { get; set; }
@@ -53,7 +61,10 @@ namespace Implementation.GridRepresentation
 
         public IEnumerable<Vector2> WalkableNeighbours(Vector2 position)
         {
-            return Dirs.Select(dir => position + dir).Where(next => InBounds(next) && Walkable(next));
+            return Dirs.Select(dir => position + dir)
+                       .Where(InBounds)
+                       .Where(next => Cells[(int) next.X, (int) next.Y] != null)
+                       .Where(Walkable);
         }
 
         /// <summary>
@@ -65,6 +76,12 @@ namespace Implementation.GridRepresentation
         {
             // Search for the unvisited neighbours.
             return WalkableNeighbours(position).Where(n => Cells[(int)n.X, (int)n.Y].Visited == 0);
+        }
+
+        public IEnumerable<Vector2> VisitedNeighbours(Vector2 position)
+        {
+            // Search for the unvisited neighbours.
+            return WalkableNeighbours(position).Where(n => Cells[(int)n.X, (int)n.Y].Visited > 0);
         } 
 
         public IEnumerable<Vector2> GetPath(Vector2 from)

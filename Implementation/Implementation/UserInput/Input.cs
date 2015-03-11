@@ -1,27 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Implementation.GridRepresentation;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Implementation
+namespace Implementation.UserInput
 {
     class Input
     {
-        private readonly Camera _camera;
-        private readonly Robot _robot;
-        private readonly Simulation _simulation;
-
-        public Input(Game1 game)
-        {
-            _camera = game.Camera;
-            _robot = game.Robot;
-            _simulation = game.Simulation;
-        }
-
-        public void HandleInput()
+        public void HandleInput(Simulation simulation)
         {
             KeyboardState state = Keyboard.GetState();
 
@@ -50,22 +34,22 @@ namespace Implementation
             // Zoom in.
             if (state.IsKeyDown(Keys.Q))
             {
-                _camera.AdjustZoom(0.1f);
+                simulation.Camera.AdjustZoom(0.1f);
             }
             // Zoom out.
             else if (state.IsKeyDown(Keys.E))
             {
-                _camera.AdjustZoom(-0.1f);
+                simulation.Camera.AdjustZoom(-0.1f);
             }
             // Center on the robot.
             else if (state.IsKeyDown(Keys.F))
             {
-                _camera.CenterOn(_robot.GridPosition);
+                simulation.Camera.CenterOn(simulation.Robot.GridPosition);
             }
-            // Start/Stop the robot.
+            // Start/Stop the simulation.
             else if (state.IsKeyDown(Keys.R))
             {
-                _simulation.Start();
+                simulation.Start();
             }
 
             // When using a controller, to match the thumbstick behavior,
@@ -79,7 +63,7 @@ namespace Implementation
             // Scale movement to move 16 pixels per second
             cameraMovement *= 16;
 
-            _camera.MoveCamera(cameraMovement, true);
+            simulation.Camera.MoveCamera(cameraMovement, true);
         }
     }
 }

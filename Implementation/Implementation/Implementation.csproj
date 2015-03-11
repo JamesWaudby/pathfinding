@@ -63,18 +63,20 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
+    <Compile Include="Camera\Camera.cs" />
     <Compile Include="Drawing\DrawGrid.cs" />
     <Compile Include="Drawing\DrawInterface.cs" />
     <Compile Include="Drawing\DrawRobot.cs" />
-    <Compile Include="Drawing\IDraw.cs" />
+    <Compile Include="Drawing\Drawing.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GridRepresentation\Cell.cs" />
     <Compile Include="GridRepresentation\Graph.cs" />
-    <Compile Include="Input.cs" />
+    <Compile Include="UserInput\Input.cs" />
+    <Compile Include="Searching\AStar.cs" />
     <Compile Include="Searching\BreadthFirst.cs" />
     <Compile Include="Searching\BreadthFirstAStar.cs" />
     <Compile Include="Searching\DepthFirst.cs" />
+    <Compile Include="Searching\DepthFirstAStar.cs" />
     <Compile Include="Searching\Search.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

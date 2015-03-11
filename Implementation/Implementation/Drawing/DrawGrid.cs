@@ -9,9 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Implementation.Drawing
 {
-    class DrawGrid : IDraw
+    class DrawGrid : IDrawing
     {
-
         private SpriteFont _font;
 
         private Texture2D _walkableTexture2D;
@@ -21,17 +20,6 @@ namespace Implementation.Drawing
         private Texture2D _leftArrowTexture2D;
         private Texture2D _downArrowTexture2D;
         private Texture2D _rightArrowTexture2D;
-
-        private Camera _camera;
-        private Robot _robot;
-        private Graph _graph;
-
-        public DrawGrid(Game1 game)
-        {
-            _camera = game.Camera;
-            _robot = game.Robot;
-            _graph = game.Graph;
-        }
 
         public void LoadContent(ContentManager content)
         {
@@ -46,19 +34,23 @@ namespace Implementation.Drawing
             _rightArrowTexture2D = content.Load<Texture2D>("right");
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Simulation simulation)
         {
+            Camera.Camera camera = simulation.Camera;
+            Robot robot = simulation.Robot;
+            Graph graph = simulation.Graph;
+
             // Cull the unneeded tiles from being drawn.
-            int left = (int)(_camera.Position.X - (_camera.ViewportWidth / _camera.Zoom)) / _robot.LocalGraph.Resolution;
-            int right = (int)(_camera.Position.X + (_camera.ViewportWidth / _camera.Zoom)) / _robot.LocalGraph.Resolution + 1;
-            int top = (int)(_camera.Position.Y - (_camera.ViewportHeight / _camera.Zoom)) / _robot.LocalGraph.Resolution;
-            int bottom = (int)(_camera.Position.Y + (_camera.ViewportHeight / _camera.Zoom)) / _robot.LocalGraph.Resolution + 1;
+            int left = (int)(camera.Position.X - (camera.ViewportWidth / camera.Zoom)) / robot.LocalGraph.Resolution;
+            int right = (int)(camera.Position.X + (camera.ViewportWidth / camera.Zoom)) / robot.LocalGraph.Resolution + 1;
+            int top = (int)(camera.Position.Y - (camera.ViewportHeight / camera.Zoom)) / robot.LocalGraph.Resolution;
+            int bottom = (int)(camera.Position.Y + (camera.ViewportHeight / camera.Zoom)) / robot.LocalGraph.Resolution + 1;
 
             // Make sure the coordinates are in bounds.
             if (left < 0) left = 0;
             if (top < 0) top = 0;
-            if (right > _robot.LocalGraph.Width) right = _robot.LocalGraph.Width;
-            if (bottom > _robot.LocalGraph.Height) bottom = _robot.LocalGraph.Height;
+            if (right > robot.LocalGraph.Width) right = robot.LocalGraph.Width;
+            if (bottom > robot.LocalGraph.Height) bottom = robot.LocalGraph.Height;
 
             // Loop through only the area that needs drawing.
             for (int y = top; y < bottom; y++)
@@ -66,26 +58,39 @@ namespace Implementation.Drawing
                 for (int x = left; x < right; x++)
                 {
                     // Get the positioning for the grid.
-                    int xPos = (x * _graph.Resolution);
-                    int yPos = (y * _graph.Resolution);
+                    int xPos = (x * graph.Resolution);
+                    int yPos = (y * graph.Resolution);
+
+                    // Create a new vector to check against.
+                    Vector2 current = new Vector2(x, y);
 
                     // Draw the existing grid.
-                    spriteBatch.Draw(_graph.Cells[x, y].Walkable ? _walkableTexture2D : _unwalkableTexture2D,
-                        new Rectangle(xPos, yPos, _graph.Resolution, _graph.Resolution), Color.White * 0.4f);
+                    spriteBatch.Draw(graph.Cells[x, y].Walkable ? _walkableTexture2D : _unwalkableTexture2D,
+                        new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution), Color.White * 0.4f);
 
                     // Draw the Robot's grid.
-                    if (_robot.LocalGraph.Cells[x, y] != null)
+                    if (robot.LocalGraph.Cells[x, y] != null)
                     {
                         // Draw the walkable area and the frontier.
-                        if (_robot.LocalGraph.Cells[x, y].Walkable)
+                        if (robot.LocalGraph.Cells[x, y].Walkable)
                         {
-                            // Draw the ground.
-                            spriteBatch.Draw(_walkableTexture2D,
-                                new Rectangle(xPos, yPos, _graph.Resolution, _graph.Resolution),
-                                _robot.LocalGraph.Cells[x, y].Visited > 0 ? Color.White : Color.Aqua);
+                            if (robot.Search.CurrentParent == current)
+                            {
+                                // Draw the ground.
+                                spriteBatch.Draw(_walkableTexture2D,
+                                    new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution), Color.Olive);
+                            }
+                            else
+                            {
+                                // Draw the ground.
+                                spriteBatch.Draw(_walkableTexture2D,
+                                    new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution),
+                                    robot.LocalGraph.Cells[x, y].Visited > 0 ? Color.White : Color.Aqua);
+
+                            }
 
                             // Draw how many times each cell has been visited.
-                            spriteBatch.DrawString(_font, _robot.LocalGraph.Cells[x, y].Visited.ToString(),
+                            spriteBatch.DrawString(_font, robot.LocalGraph.Cells[x, y].Visited.ToString(),
                                 new Vector2(xPos + 2, yPos), Color.Blue);
                         }
                         // Draw the non walkable areas.
@@ -94,25 +99,22 @@ namespace Implementation.Drawing
                             spriteBatch.Draw(_unwalkableTexture2D, new Vector2(xPos, yPos), Color.White);
                         }
 
-                        // Create a new vector to check against.
-                        Vector2 current = new Vector2(x, y);
-
                         // Draw arrows to the cell parents.
-                        if (current - _robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[0])
-                        {
-                            spriteBatch.Draw(_leftArrowTexture2D, new Vector2(xPos, yPos), Color.White);
-                        }
-                        else if (current - _robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[1])
+                        if (current - robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[0])
                         {
                             spriteBatch.Draw(_downArrowTexture2D, new Vector2(xPos, yPos), Color.White);
                         }
-                        else if (current - _robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[2])
+                        else if (current - robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[1])
                         {
                             spriteBatch.Draw(_rightArrowTexture2D, new Vector2(xPos, yPos), Color.White);
                         }
-                        else if (current - _robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[3])
+                        else if (current - robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[2])
                         {
                             spriteBatch.Draw(_upArrowTexture2D, new Vector2(xPos, yPos), Color.White);
+                        }
+                        else if (current - robot.LocalGraph.Cells[x, y].Parent == Graph.Dirs[3])
+                        {
+                            spriteBatch.Draw(_leftArrowTexture2D, new Vector2(xPos, yPos), Color.White);
                         }
                     }
                 }

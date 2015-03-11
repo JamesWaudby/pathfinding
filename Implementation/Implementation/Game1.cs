@@ -1,15 +1,15 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Implementation.Drawing;
 using Implementation.GridRepresentation;
+using Implementation.UserInput;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
+
 #endregion
 
 namespace Implementation
@@ -23,7 +23,6 @@ namespace Implementation
 
         private SpriteBatch _spriteBatch;
         private SpriteBatch _interfaceBatch;
-        private SpriteFont _font;
         private Input _input;
 
         // The drawing objects.
@@ -31,10 +30,13 @@ namespace Implementation
         private DrawRobot _drawRobot;
         private DrawInterface _drawInterface;
 
-        public Camera Camera { get; set; }
-        public Graph Graph { get; set; }
-        public Robot Robot { get; set; }
         public Simulation Simulation { get; set; }
+        private List<Simulation> _simulations;
+        private int _simulationNumber = 0;
+
+
+        // Used for the Poster Presentation.
+        private bool _demoMode = true;
 
         public Game1()
         {
@@ -50,47 +52,33 @@ namespace Implementation
         /// </summary>
         protected override void Initialize()
         {
-            // Create the world graph.
-            Graph = new Graph(5, 5);
-
-            // Temporary for generating rooms.
-            Random rand = new Random();
-            for (int x = 0; x < Graph.Width; x++)
+            // Create the simulations.
+            _simulations = new List<Simulation>
             {
-                for (int y = 0; y < Graph.Height; y++)
-                {
-                    if (rand.Next(0, 10) >= 8) Graph.Cells[x,y]= new Cell(false);
-                    else Graph.Cells[x, y] = new Cell(true);
-                }
-            }
-
-            // Create the starting position.
-            Vector2 startPosition = new Vector2(2, 2);
-
-            // Create the robot and set it's starting position.
-            Robot = new Robot(startPosition, Graph);
-
-            // Create the camera.
-            Camera = new Camera(_graphics.GraphicsDevice.Viewport.Width,
-                                _graphics.GraphicsDevice.Viewport.Height);
-
-            // Focus the camera on the starting position.
-            Camera.CenterOn(startPosition);
-
-            // Create the simulation.
-            Simulation = new Simulation(this);
+                new Simulation(_graphics, 5, 5, 10, 100, new Vector2(2, 2)),
+                new Simulation(_graphics, 5, 5, 10, 80, new Vector2(2, 2)),
+                //new Simulation(_graphics, 5, 5, 55, 80, new Vector2(2, 2)),
+                new Simulation(_graphics, 10, 10, 10, 100, new Vector2(4, 4)),
+                new Simulation(_graphics, 10, 10, 10, 80, new Vector2(4, 4)),
+                new Simulation(_graphics, 20, 20, 10, 100, new Vector2(9, 9)),
+                new Simulation(_graphics, 20, 20, 10, 80, new Vector2(9, 9)),
+                new Simulation(_graphics, 40, 40, 100, 100, new Vector2(19, 19)),
+                new Simulation(_graphics, 40, 40, 100, 80, new Vector2(19, 19)),
+                //new Simulation(_graphics, 100, 100, 100, 100, new Vector2(49, 49)),
+                //new Simulation(_graphics, 100, 100, 100, 80, new Vector2(49, 49))
+            };
 
             // Create new user input.
-            _input = new Input(this);
+            _input = new Input();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _interfaceBatch = new SpriteBatch(GraphicsDevice);
 
             // Creating the drawing objects.
-            _drawGrid = new DrawGrid(this);
-            _drawRobot = new DrawRobot(this);
-            _drawInterface = new DrawInterface(this);
+            _drawGrid = new DrawGrid();
+            _drawRobot = new DrawRobot();
+            _drawInterface = new DrawInterface();
 
             base.Initialize();
         }
@@ -126,14 +114,33 @@ namespace Implementation
                 Exit();
 
             // Update the user input.
-            _input.HandleInput();
+            _input.HandleInput(_simulations[_simulationNumber]);
             
-            // Update the robot.
-            Robot.Update(gameTime);
-
             // Update the Simulation
-            Simulation.Update();
-           
+            if (!_simulations[_simulationNumber].Complete)
+            {
+                _simulations[_simulationNumber].Update(gameTime);
+            }
+            else
+            {
+                // Reset the current simulation for next time.
+                _simulations[_simulationNumber].Reset();
+
+                if (_simulationNumber < _simulations.Count() - 1)
+                {
+                    _simulationNumber++;
+                    _simulations[_simulationNumber].Start();
+                }
+                else
+                {
+                    //  Keep the simulations looping indefinitely.
+                    if (_demoMode)
+                    {
+                        _simulationNumber = 0;
+                    }
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -147,13 +154,13 @@ namespace Implementation
 
             #region Simulation Drawing.
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.TranslationMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, _simulations[_simulationNumber].Camera.TranslationMatrix);
 
             // Draw both the world grid and the robot local grid.
-            _drawGrid.Draw(_spriteBatch);
+            _drawGrid.Draw(_spriteBatch, _simulations[_simulationNumber]);
 
             // Draw the robot.
-            _drawRobot.Draw(_spriteBatch);
+            _drawRobot.Draw(_spriteBatch, _simulations[_simulationNumber]);
 
             _spriteBatch.End();
 
@@ -163,7 +170,7 @@ namespace Implementation
 
             // Draw the user interface overlay.
             _interfaceBatch.Begin();
-            _drawInterface.Draw(_interfaceBatch);
+            _drawInterface.Draw(_interfaceBatch, _simulations[_simulationNumber]);
             _interfaceBatch.End();
 
             #endregion

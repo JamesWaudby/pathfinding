@@ -10,19 +10,18 @@ namespace Implementation.Searching
     {
         public DepthFirst(Robot robot) : base(robot)
         {
-
         }
 
         public override Queue<Vector2> GetPath()
         {
             // Search for the unvisited neighbours.
-            IEnumerable<Vector2> neighbours = _robot.LocalGraph.UnvisitedNeighbours(_robot.GridPosition).ToList();
+            IEnumerable<Vector2> neighbours = Robot.LocalGraph.UnvisitedNeighbours(Robot.GridPosition).ToList();
 
             // Check that there are neighbours.
             if (neighbours.Any())
             {
                 // Move to the first unvisited cell.
-                Vector2 next = neighbours.First() - _robot.GridPosition;
+                Vector2 next = neighbours.First() - Robot.GridPosition;
 
                 // Add the next position to the movement queue - not a DFS queue!
                 Path.Enqueue(next);
@@ -32,23 +31,24 @@ namespace Implementation.Searching
             else
             {
                 // Check if we are back at the starting position - this signals the end.
-                if (_robot.GridPosition != _robot.StartPosition)
-                {
-                    Vector2? next =
-                        (_robot.LocalGraph.Cells[(int) _robot.GridPosition.X, (int) _robot.GridPosition.Y].Parent -
-                         _robot.GridPosition);
+                Vector2? next = Robot.LocalGraph.Cells[(int) Robot.GridPosition.X, (int) Robot.GridPosition.Y].Parent - Robot.GridPosition;
 
-                    if (next != null)
-                        Path.Enqueue((Vector2)next);
+                if (next != null)
+                {
+                    Path.Enqueue((Vector2) next);
                 }
                 else
                 {
-                    // There is no path remaining.
                     return null;
                 }
             }
 
             return Path;
+        }
+
+        public override string ToString()
+        {
+            return "Depth First Search";
         }
     }
 }

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Implementation.GridRepresentation;
+﻿// Tutorial: https://roguesharp.wordpress.com/2014/07/13/tutorial-5-creating-a-2d-camera-with-pan-and-zoom-in-monogame/
 using Microsoft.Xna.Framework;
 
-// Tutorial: https://roguesharp.wordpress.com/2014/07/13/tutorial-5-creating-a-2d-camera-with-pan-and-zoom-in-monogame/
-using Microsoft.Xna.Framework.Input;
-
-namespace Implementation
+namespace Implementation.Camera
 {
     public class Camera
     {

@@ -71,43 +71,51 @@ namespace Implementation
         /// <summary>
         /// The robot's moving speed.
         /// </summary>
-        private const int Speed = 3;
+        private const int Speed = 5;
 
-        private readonly Search _search;
+        public Search Search { get; set; }
 
         /// <summary>
         /// Creates a robot at the given grid position.
         /// </summary>
-        /// <param name="gridPosition">The location on the grid to position the robot.</param>
+        /// <param name="startPosition">The location on the grid to position the robot.</param>
         /// <param name="worldGraph">The full world representation.</param>
-        public Robot(Vector2 gridPosition, Graph worldGraph)
+        public Robot(Vector2 startPosition, Graph worldGraph)
+        {
+            // Store the starting position of the robot.
+            StartPosition = startPosition;
+
+            // Set the world representation.
+            _worldGraph = worldGraph;
+
+            // Configure the robot.
+            Initialize();
+        }
+
+        private void Initialize()
         {
             // Do not start the robot as active.
             Status = RobotStatus.Idle;
 
             // Set the grid and world position.
-            GridPosition = gridPosition;
-            WorldPosition = GridPosition* worldGraph.Resolution;
-
-            // Store the starting position of the robot.
-            StartPosition = GridPosition;
+            GridPosition = StartPosition;
+            WorldPosition = GridPosition * _worldGraph.Resolution;
 
             // Create the queue for moving.
             _movementQueue = new Queue<Vector2>();
 
-            // Set the world representation.
-            _worldGraph = worldGraph;
+            _targetPosition = new Vector2();
 
             // Create the local graph and add the starting position to it.
             LocalGraph = new Graph(_worldGraph.Width, _worldGraph.Height);
 
-            LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y] = new Cell(true)
+            LocalGraph.Cells[(int)GridPosition.X, (int)GridPosition.Y] = new Cell(true)
             {
                 Visited = 1
             };
 
             // Set the search mode.
-            _search = new BreadthFirst(this);
+            Search = new BreadthFirst(this);
 
             // Explore the immediate vicinity.
             ScanCells();
@@ -129,7 +137,7 @@ namespace Implementation
             if (!_movementQueue.Any())
             {
                 // Populate the movement queue.
-                _movementQueue = _search.GetPath();
+                _movementQueue = Search.GetPath();
 
                 if(_movementQueue == null)
                     Status = RobotStatus.Complete;
@@ -182,9 +190,7 @@ namespace Implementation
                 _targetPosition = Vector2.Zero;
 
                 // Add the parent of the new cell.
-                if (LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y].Parent == null &&
-                    GridPosition != StartPosition &&
-                    LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y].Visited == 0)
+                if (LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y].Visited == 0)
                 {
                     LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y].Parent = parent;
                 }
@@ -193,6 +199,33 @@ namespace Implementation
                 LocalGraph.Cells[(int) GridPosition.X, (int) GridPosition.Y].Visited++;
             }
 
+        }
+
+        public void Reset()
+        {
+            //Initialize();
+
+            // Do not start the robot as active.
+            Status = RobotStatus.Idle;
+
+            // Set the grid and world position.
+            GridPosition = StartPosition;
+            WorldPosition = GridPosition * _worldGraph.Resolution;
+
+            // Create the queue for moving.
+            _movementQueue = new Queue<Vector2>();
+            _targetPosition = new Vector2();
+
+            // Create the local graph and add the starting position to it.
+            LocalGraph = new Graph(_worldGraph.Width, _worldGraph.Height);
+
+            LocalGraph.Cells[(int)GridPosition.X, (int)GridPosition.Y] = new Cell(true)
+            {
+                Visited = 1
+            };
+
+            // Explore the immediate vicinity.
+            ScanCells();
         }
 
         /// <summary>
@@ -211,174 +244,12 @@ namespace Implementation
                 LocalGraph.Cells[x, y] = _worldGraph.Cells[x, y].Walkable ? new Cell(true) : new Cell(false);
                 
                 // Set the parent on a walkable cell.
+                // This is pre-emptive and only the first chance
+                // to add parents. Will be updated upon first
+                // actual visit.
                 if(LocalGraph.Cells[x, y].Walkable)
                     LocalGraph.Cells[x, y].Parent = GridPosition;
             }
         }
-
-        // Unneeded search algorithms - backup.
-        ///// <summary>
-        ///// Find a path from the current position to the target.
-        ///// </summary>
-        ///// <param name="to">Position to path to.</param>
-        ///// <returns>An IEnumerable of the represented path.</returns>
-        //public void QueuePath(Vector2 to)
-        //{
-        //    // Get path to root for current.
-        //    IEnumerable<Vector2> currentPath = LocalGraph.GetPath(GridPosition).ToList();
-
-        //    // Get path to root for parent.
-        //    IEnumerable<Vector2> parentPath = LocalGraph.GetPath(to).ToList();
-
-        //    // Which place the paths cross at.
-        //    Vector2 match = new Vector2();
-
-        //    // Has the path been matched yet.
-        //    bool matched = false;
-
-        //    // Loop through each member of the parent ienumerable
-        //    // and check whether or not it occurs in the current path
-        //    // as well. Set match to equal the first match found.
-        //    foreach (Vector2 parent in parentPath.TakeWhile(parent => !matched).Where(parent => currentPath.Any(current => current == parent)))
-        //    {
-        //        match = parent;
-        //        matched = true;
-        //    }
-
-        //    // Join all of the positions before the match
-        //    // from the currentPath with all of the positions
-        //    // from the match onwards from the parentPath. 
-        //    IEnumerable<Vector2> finalPath = currentPath.TakeWhile(current => current != match)
-        //                                                .Concat(parentPath.Reverse()
-        //                                                .SkipWhile(current => current != match));
-
-        //    // Cache the current position.
-        //    Vector2 position = GridPosition;
-
-        //    // Loop through all of the path.
-        //    foreach (Vector2 next in finalPath)
-        //    {
-        //        // Find the direction needed to move in.
-        //        Vector2 dir = next - position;
-
-        //        // Check that it's not the place the robot
-        //        // is currently positioned.
-        //        if (dir != Vector2.Zero)
-        //        {
-        //            // Add direction to the movement queue.
-        //            _movementQueue.Enqueue(dir);
-        //        }
-
-        //        // Update the position to be the last checked
-        //        // position.
-        //        position = next;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Perform a Depth First Search.
-        ///// </summary>
-        //public void DepthFirst()
-        //{
-        //    // Search for the unvisited neighbours.
-        //    IEnumerable<Vector2> neighbours = GetUnvisitedNeighbours(GridPosition).ToList();
-
-        //    // Check that there are neighbours.
-        //    if (neighbours.Any())
-        //    {
-        //        // Move to the first unvisited cell.
-        //        Vector2 next = neighbours.First() - GridPosition;
-
-        //        // Add the next position to the movement queue - not a DFS queue!
-        //        _movementQueue.Enqueue(next);
-        //    }
-
-        //    // If there are no unvisited cells, move back to the parent of the cell.
-        //    else
-        //    {
-        //        // Check if we are back at the starting position - this signals the end.
-        //        if (GridPosition != StartPosition)
-        //        {
-        //            Vector2? next = (LocalGraph.Cells[(int)GridPosition.X, (int)GridPosition.Y].Parent - GridPosition);
-
-        //            if (next != null)
-        //                _movementQueue.Enqueue((Vector2)next);
-        //        }
-        //        else
-        //        {
-        //            //Active = false;
-        //            Status = RobotStatus.Complete;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Perform a Breadth First Search.
-        ///// </summary>
-        //public void BreadthFirst()
-        //{
-        //    // Get the neighbours of the current cell.
-        //    IEnumerable<Vector2> neighbours = GetUnvisitedNeighbours(GridPosition).ToList();
-
-        //    // Check if there are unvisited neighbours.
-        //    if (neighbours.Any())
-        //    {
-        //        // Add each of the unvisited neighbours to the queue.
-        //        foreach (Vector2 neighbour in neighbours)
-        //        {
-        //            // Get the next position.
-        //            Vector2 next = neighbour - GridPosition;
-
-        //            // If the current position is the current parent queue more moves.
-        //            if (GridPosition == _currentParent)
-        //            {
-        //                // Add the movement to the queue
-        //                // with the return movement as well.
-        //                _movementQueue.Enqueue(next);
-
-        //                if (GetUnvisitedNeighbours(GridPosition).Any())
-        //                    _movementQueue.Enqueue(-next);
-
-        //                // Add the newly discovered cell
-        //                // to the parent queue.
-        //                _parentQueue.Enqueue(neighbour);
-        //            }
-        //        }
-        //    }
-        //    // There are no unvisited neighbours.
-        //    else
-        //    {
-        //        // Are there anymore parent cells to check?
-        //        if (_parentQueue.Any())
-        //        {
-        //            // Get the next parent in the queue.
-        //            _currentParent = _parentQueue.Dequeue();
-
-        //            if (GetUnvisitedNeighbours(_currentParent).Any())
-        //            {
-        //                // Get the path between the current position and the new parent.
-        //                QueuePath(_currentParent);
-        //            }
-        //        }
-
-        //        // The search must be over - return to the starting position.
-        //        else
-        //        {
-        //            // Check if the robot is back at the starting position.
-        //            if (GridPosition == StartPosition)
-        //            {
-        //                //Active = false;
-        //                Status = RobotStatus.Complete;
-        //            }
-        //            // If not, move there.
-        //            else
-        //            {
-        //                // Get the path between the current position and the new parent.
-        //                QueuePath(StartPosition);
-        //            }
-        //        }
-        //    }
-        //}
-
     }
 }

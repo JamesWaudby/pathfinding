@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Implementation.Drawing
 {
-    interface IDraw
+    interface IDrawing
     {
         void LoadContent(ContentManager content);
-        void Draw(SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch, Simulation simulation);
     }
 }

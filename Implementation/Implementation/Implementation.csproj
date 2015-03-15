@@ -22,7 +22,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -68,6 +68,7 @@
     <Compile Include="Drawing\DrawInterface.cs" />
     <Compile Include="Drawing\DrawRobot.cs" />
     <Compile Include="Drawing\Drawing.cs" />
+    <Compile Include="Drawing\DrawWorld.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GridRepresentation\Cell.cs" />
     <Compile Include="GridRepresentation\Graph.cs" />

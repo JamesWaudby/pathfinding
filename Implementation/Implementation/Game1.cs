@@ -29,6 +29,7 @@ namespace Implementation
         private DrawGrid _drawGrid;
         private DrawRobot _drawRobot;
         private DrawInterface _drawInterface;
+        private DrawWorld _drawWorld;
 
         public Simulation Simulation { get; set; }
         private List<Simulation> _simulations;
@@ -36,7 +37,7 @@ namespace Implementation
 
 
         // Used for the Poster Presentation.
-        private bool _demoMode = true;
+        private const bool DemoMode = true;
 
         public Game1()
         {
@@ -52,21 +53,20 @@ namespace Implementation
         /// </summary>
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            _graphics.IsFullScreen = true;
+            _graphics.ApplyChanges();
+
             // Create the simulations.
-            _simulations = new List<Simulation>
+            _simulations = new List<Simulation>();
+
+            for (int i = 0; i < 6; i++)
             {
-                new Simulation(_graphics, 5, 5, 10, 100, new Vector2(2, 2)),
-                new Simulation(_graphics, 5, 5, 10, 80, new Vector2(2, 2)),
-                //new Simulation(_graphics, 5, 5, 55, 80, new Vector2(2, 2)),
-                new Simulation(_graphics, 10, 10, 10, 100, new Vector2(4, 4)),
-                new Simulation(_graphics, 10, 10, 10, 80, new Vector2(4, 4)),
-                new Simulation(_graphics, 20, 20, 10, 100, new Vector2(9, 9)),
-                new Simulation(_graphics, 20, 20, 10, 80, new Vector2(9, 9)),
-                new Simulation(_graphics, 40, 40, 100, 100, new Vector2(19, 19)),
-                new Simulation(_graphics, 40, 40, 100, 80, new Vector2(19, 19)),
-                //new Simulation(_graphics, 100, 100, 100, 100, new Vector2(49, 49)),
-                //new Simulation(_graphics, 100, 100, 100, 80, new Vector2(49, 49))
-            };
+                int size = 5 + (i * 5);
+                _simulations.Add(new Simulation(_graphics, size, size, 2048, 100, new Vector2(size / 2, size / 2)));
+                _simulations.Add(new Simulation(_graphics, size, size, 2048, 60, new Vector2(size / 2, size / 2)));
+            }
 
             // Create new user input.
             _input = new Input();
@@ -79,6 +79,7 @@ namespace Implementation
             _drawGrid = new DrawGrid();
             _drawRobot = new DrawRobot();
             _drawInterface = new DrawInterface();
+            _drawWorld = new DrawWorld();
 
             base.Initialize();
         }
@@ -92,6 +93,7 @@ namespace Implementation
             _drawGrid.LoadContent(Content);
             _drawRobot.LoadContent(Content);
             _drawInterface.LoadContent(Content);
+            _drawWorld.LoadContent(Content);
         }
 
         /// <summary>
@@ -129,16 +131,16 @@ namespace Implementation
                 if (_simulationNumber < _simulations.Count() - 1)
                 {
                     _simulationNumber++;
-                    _simulations[_simulationNumber].Start();
                 }
                 else
                 {
                     //  Keep the simulations looping indefinitely.
-                    if (_demoMode)
+                    if (DemoMode)
                     {
                         _simulationNumber = 0;
                     }
                 }
+                _simulations[_simulationNumber].Start();
             }
 
             base.Update(gameTime);
@@ -158,6 +160,7 @@ namespace Implementation
 
             // Draw both the world grid and the robot local grid.
             _drawGrid.Draw(_spriteBatch, _simulations[_simulationNumber]);
+            //_drawWorld.Draw(_spriteBatch, _simulations[_simulationNumber]);
 
             // Draw the robot.
             _drawRobot.Draw(_spriteBatch, _simulations[_simulationNumber]);
@@ -177,5 +180,6 @@ namespace Implementation
 
             base.Draw(gameTime);
         }
+
     }
 }

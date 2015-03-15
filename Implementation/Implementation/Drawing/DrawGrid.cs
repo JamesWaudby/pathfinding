@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Implementation.GridRepresentation;
@@ -77,8 +78,7 @@ namespace Implementation.Drawing
                             if (robot.Search.CurrentParent == current)
                             {
                                 // Draw the ground.
-                                spriteBatch.Draw(_walkableTexture2D,
-                                    new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution), Color.Olive);
+                                spriteBatch.Draw(_walkableTexture2D, new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution), Color.PaleGreen);
                             }
                             else
                             {
@@ -86,11 +86,12 @@ namespace Implementation.Drawing
                                 spriteBatch.Draw(_walkableTexture2D,
                                     new Rectangle(xPos, yPos, graph.Resolution, graph.Resolution),
                                     robot.LocalGraph.Cells[x, y].Visited > 0 ? Color.White : Color.Aqua);
+                              
 
                             }
 
                             // Draw how many times each cell has been visited.
-                            spriteBatch.DrawString(_font, robot.LocalGraph.Cells[x, y].Visited.ToString(),
+                            spriteBatch.DrawString(_font, robot.LocalGraph.Cells[x, y].Visited.ToString(CultureInfo.InvariantCulture),
                                 new Vector2(xPos + 2, yPos), Color.Blue);
                         }
                         // Draw the non walkable areas.

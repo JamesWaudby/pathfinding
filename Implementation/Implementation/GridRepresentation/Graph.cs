@@ -14,14 +14,6 @@ namespace Implementation.GridRepresentation
 {
     public class Graph
     {
-        //public static readonly Vector2[] Dirs =
-        //{
-        //    new Vector2(1, 0),
-        //    new Vector2(0, -1),
-        //    new Vector2(-1, 0),
-        //    new Vector2(0, 1)
-        //};
-
         public static readonly Vector2[] Dirs =
         {
             new Vector2(0, -1),
@@ -102,6 +94,50 @@ namespace Implementation.GridRepresentation
             }
 
             return path;
-        } 
+        }
+
+        // Random walk algorithm - http://pcg.wikidot.com/pcg-algorithm:random-walk
+        public void CreateRoom(int width, int height, int seed, int percent, Vector2 startPosition)
+        {
+            int filled = 0;
+            int area = width*height;
+            int required = (int)((area/100.0) * percent);
+
+            Vector2 currentPosition = startPosition;
+            Random rand = new Random(seed);
+
+            // Fill the grid completely.
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (percent < 100) Cells[x, y] = new Cell(false);
+                    else Cells[x, y] = new Cell(true);
+                }
+            }
+
+            // Pick a random point on a filled grid and mark it empty.
+            Cells[(int)currentPosition.X, (int)currentPosition.Y].Walkable = true;
+
+            while (filled < required && percent < 100)
+            {
+                // Choose a random cardinal direction (N, E, S, W).
+                Vector2 next = Dirs[rand.Next(0, Dirs.Length)];
+
+                // Mark it empty unless it already was.
+                if (InBounds(currentPosition + next))
+                {
+                    // Move in that direction
+                    currentPosition += next;
+
+                    if (!Walkable(currentPosition))
+                    {
+                        Cells[(int)currentPosition.X, (int)currentPosition.Y].Walkable = true;
+                        filled++;
+                    }
+                }
+
+            }
+        }
     }
 }

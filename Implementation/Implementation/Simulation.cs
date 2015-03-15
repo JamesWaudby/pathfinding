@@ -47,18 +47,8 @@ namespace Implementation
             // Create the world graph.
             Graph = new Graph(width, height);
 
-            // Temporary for generating rooms.
-            Random rand = new Random(seed);
-
             // Create the new graph
-            for (int x = 0; x < Graph.Width; x++)
-            {
-                for (int y = 0; y < Graph.Height; y++)
-                {
-                    if (rand.Next(0, 100) >= obstaclePercentage) Graph.Cells[x, y] = new Cell(false);
-                    else Graph.Cells[x, y] = new Cell(true);
-                }
-            }
+            Graph.CreateRoom(width, height, seed, obstaclePercentage, startPosition);
 
             // Create the robot and set it's starting position.
             Robot = new Robot(startPosition, Graph);
@@ -70,8 +60,10 @@ namespace Implementation
             // Focus the camera on the starting position.
             Camera.CenterOn(startPosition);
 
+            int areaExplored = (int)(width*height/100.0 * obstaclePercentage);
+
             // Filename for saving the results.
-            _filename = width + " x " + height + "  " + seed + "  " + obstaclePercentage + "  " + startPosition.X + " x " + startPosition.Y;
+            _filename = width + " x " + height + "  " + seed + "  " + obstaclePercentage + " " + areaExplored + "  " + startPosition.X + " x " + startPosition.Y;
         }
 
         /// <summary>
@@ -83,6 +75,7 @@ namespace Implementation
             if (Stopwatch.IsRunning) return;
 
             // Start the stopwatch.
+            Stopwatch.Reset();
             Stopwatch.Start();
 
             // Set the robot's search type
@@ -104,24 +97,12 @@ namespace Implementation
         /// End the simulation and perform end of test stuff.
         /// </summary>
         public void Stop()
-        {                
+        {
             // Stop the stopwatch.
             Stopwatch.Stop();
 
-            int finalTileCount = 0;
-
-            // Find final tile number.
-            foreach (Cell cell in Robot.LocalGraph.Cells)
-            {
-                if (cell != null)
-                    finalTileCount += cell.Visited;
-            }
-
-            //  Save the results to a file?
-            using (StreamWriter streamWriter = File.AppendText("Results/" + _filename + ".csv"))
-            {
-                streamWriter.WriteLine(Robot.Search + ", " + Stopwatch.Elapsed.TotalSeconds + ", " + finalTileCount);
-            }
+            // Output the results to a file.
+            SaveResults();
 
             // Perform the test multiple times.
             if (_current < Repeat)
@@ -134,13 +115,22 @@ namespace Implementation
                 // Repeat for all types of search.
                 if (_searchType < _searchTypes.Count() - 1)
                 {
+                    // Change the algorithm type.
                     _searchType++;
+
+                    // Reset the current repeat status.
                     _current = 0;
+
+                    // Reset the simulation.
                     Reset();
+
+                    // Start with the new algorithm.
+                    Start();
                 }
                 else
                 {
                     Complete = true;
+                    _searchType = 0;
                 }
             }
         }
@@ -150,7 +140,44 @@ namespace Implementation
             Stopwatch.Reset();
             Robot.Reset();
             Complete = false;
-            Start();
+        }
+
+        private void SaveResults()
+        {
+            int finalTileCount = 0;
+
+            // Find final tile number.
+            foreach (Cell cell in Robot.LocalGraph.Cells)
+            {
+                if (cell != null)
+                    finalTileCount += cell.Visited;
+            }
+
+            string path = "Results/" + _filename + ".csv";
+
+            if (!Directory.Exists("Results"))
+            {
+                Directory.CreateDirectory("Results");
+            }
+
+            if (!File.Exists(path))
+            {
+                // Create a file to write to. 
+                using (StreamWriter streamWriter = File.CreateText(path))
+                {
+                    streamWriter.WriteLine(Robot.Search + ", " + Stopwatch.Elapsed.TotalSeconds + ", " + finalTileCount);
+                }	
+            }
+
+            else
+            {
+                //  Save the results to a file?
+                using (StreamWriter streamWriter = File.AppendText("Results/" + _filename + ".csv"))
+                {
+                    streamWriter.WriteLine(Robot.Search + ", " + Stopwatch.Elapsed.TotalSeconds + ", " + finalTileCount);
+                }
+            }
+
         }
 
         /// <summary>
@@ -168,5 +195,6 @@ namespace Implementation
                 Stop();
             }
         }
+
     }
 }
